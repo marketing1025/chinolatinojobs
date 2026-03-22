@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ChinoLatino Workforce & Hospitality</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#faf8f5;color:#333;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:480px;padding:16px;margin:0 auto}
+/* Logo */
+.logo-wrap{text-align:center;margin:12px 0 4px}
+.logo-wrap img{width:200px;height:auto}
+/* Language toggle */
+.lang-bar{display:flex;justify-content:flex-end;gap:6px;margin-bottom:8px;padding:4px 0}
+.lang-btn{background:none;border:1.5px solid #d4a843;color:#8b6914;font-size:12px;font-weight:600;padding:4px 10px;border-radius:16px;cursor:pointer;transition:all .2s}
+.lang-btn.active{background:#d4a843;color:#fff}
+.lang-btn:hover{background:#f5e6c4}
+/* Hero */
+.hero{text-align:center;padding:20px 16px 16px;margin-bottom:16px}
+.hero h1{font-size:26px;font-weight:800;line-height:1.25;margin-bottom:8px}
+.hero h1 .chino{color:#c0392b}
+.hero h1 .latino{color:#1e8449}
+.hero-sub{font-size:15px;color:#666;margin-bottom:20px;line-height:1.4}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#c0392b 0%,#a93226 100%);color:#fff;font-size:17px;font-weight:700;padding:14px 40px;border-radius:30px;border:none;cursor:pointer;letter-spacing:0.3px;box-shadow:0 4px 15px rgba(192,57,43,0.3);transition:transform .15s,box-shadow .15s}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(192,57,43,0.4)}
+.cta-btn:active{transform:translateY(0)}
+.cta-note{font-size:12px;color:#999;margin-top:10px}
+/* Trust cards */
+.trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.trust-card{background:#fff;border:1px solid #e8e0d4;border-radius:12px;padding:14px 12px;text-align:center}
+.trust-card.full{grid-column:1/-1}
+.trust-icon{font-size:28px;margin-bottom:6px}
+.trust-title{font-size:13px;font-weight:700;color:#333;margin-bottom:3px}
+.trust-desc{font-size:11px;color:#888;line-height:1.3}
+/* Divider */
+.section-divider{height:3px;background:linear-gradient(90deg,#c0392b,#d4a843,#1e8449);border-radius:2px;margin:8px 0 20px;opacity:0.6}
+/* Scorecard */
+.scorecard{display:none}
+.progress-wrap{margin-bottom:20px}
+.progress-label{font-size:12px;color:#888;margin-bottom:6px;display:flex;justify-content:space-between}
+.progress-bar{height:6px;background:#e8e0d4;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#c0392b,#d4a843,#1e8449);border-radius:3px;transition:width .4s ease;width:0%}
+/* Step card */
+.step-card{background:#fff;border:1px solid #e8e0d4;border-radius:14px;padding:24px 20px;margin-bottom:16px}
+.step-num{font-size:11px;color:#d4a843;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.step-q{font-size:18px;font-weight:700;color:#333;margin-bottom:4px;line-height:1.3}
+.step-hint{font-size:12px;color:#888;margin-bottom:16px;line-height:1.4}
+/* Inputs */
+input[type=text],input[type=number],input[type=email],input[type=tel],select{width:100%;padding:12px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;font-family:inherit;background:#faf8f5;transition:border-color .2s;outline:none}
+input:focus,select:focus{border-color:#d4a843}
+textarea{width:100%;padding:12px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;font-family:inherit;background:#faf8f5;resize:vertical;min-height:80px;outline:none;transition:border-color .2s}
+textarea:focus{border-color:#d4a843}
+.field-group{margin-bottom:12px}
+.field-label{font-size:12px;color:#666;font-weight:600;margin-bottom:5px;display:block}
+/* Options (multiple choice) */
+.option-list{display:flex;flex-direction:column;gap:8px}
+.option-item{background:#faf8f5;border:1.5px solid #ddd;border-radius:10px;padding:13px 14px;cursor:pointer;font-size:14px;transition:all .15s;display:flex;align-items:center;gap:10px}
+.option-item:hover{border-color:#d4a843;background:#fdf8ee}
+.option-item.selected{border-color:#c0392b;background:#fdf0ee}
+.option-dot{width:18px;height:18px;border-radius:50%;border:2px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.option-item.selected .option-dot{border-color:#c0392b;background:#c0392b}
+.option-item.selected .option-dot::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%}
+.option-text{flex:1}
+.option-main{font-weight:600;color:#333}
+.option-sub{font-size:11px;color:#888;margin-top:2px}
+/* Checkbox (gender) */
+.checkbox-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #ddd;border-radius:10px;cursor:pointer;margin-bottom:8px;background:#faf8f5;transition:all .15s}
+.checkbox-row:hover{border-color:#d4a843}
+.checkbox-row.selected{border-color:#c0392b;background:#fdf0ee}
+.checkbox-box{width:20px;height:20px;border:2px solid #ccc;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:13px;color:transparent}
+.checkbox-row.selected .checkbox-box{border-color:#c0392b;background:#c0392b;color:#fff}
+/* Buttons */
+.nav-btns{display:flex;gap:10px;margin-top:20px}
+.btn-back{flex:0 0 auto;background:none;border:1.5px solid #ddd;color:#888;font-size:14px;font-weight:600;padding:12px 18px;border-radius:10px;cursor:pointer;transition:all .15s}
+.btn-back:hover{border-color:#999;color:#666}
+.btn-next{flex:1;background:#1e8449;color:#fff;font-size:15px;font-weight:700;padding:13px 20px;border-radius:10px;border:none;cursor:pointer;transition:all .15s}
+.btn-next:hover{background:#196f3d}
+.btn-next:disabled{opacity:.35;cursor:not-allowed}
+.btn-next:disabled:hover{background:#1e8449}
+/* Error */
+.field-error{font-size:11px;color:#c0392b;margin-top:4px;display:none}
+.field-error.show{display:block}
+/* Thank you */
+.thankyou{display:none;text-align:center;padding:40px 20px}
+.ty-check{font-size:64px;margin-bottom:16px}
+.ty-title{font-size:28px;font-weight:800;margin-bottom:8px}
+.ty-title .chino{color:#c0392b}
+.ty-title .latino{color:#1e8449}
+.ty-msg{font-size:15px;color:#666;line-height:1.5;margin-bottom:16px}
+.ty-note{font-size:12px;color:#999;line-height:1.4;background:#fff;border:1px solid #e8e0d4;border-radius:10px;padding:14px;display:inline-block}
+/* Footer */
+.footer{text-align:center;padding:20px 0 30px;font-size:11px;color:#bbb}
+.footer a{color:#d4a843;text-decoration:none}
+/* Select wrapper */
+.select-wrap{position:relative}
+.select-wrap select{appearance:none;-webkit-appearance:none;padding-right:36px}
+.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#999;pointer-events:none;font-size:14px}
+/* Responsive */
+@media(max-width:360px){
+  .hero h1{font-size:22px}
+  .trust-grid{gap:8px}
+  .step-card{padding:18px 14px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('zh')">中文</button>
+</div>
+
+<!-- PAGE 1: LANDING -->
+<div id="page-landing">
+  <div class="logo-wrap">
+    <img src="data:image/webp;base64,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" alt="ChinoLatino Workforce & Hospitality" id="logo-img">
+  </div>
+
+  <div class="hero">
+    <h1 id="hero-headline"></h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <button class="cta-btn" id="cta-btn" onclick="startScorecard()"></button>
+    <p class="cta-note" id="cta-note"></p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="trust-grid" id="trust-grid"></div>
+</div>
+
+<!-- PAGE 2: SCORECARD -->
+<div id="page-scorecard" class="scorecard">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="prog-step"></span>
+      <span id="prog-pct"></span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="step-container"></div>
+  <div class="nav-btns">
+    <button class="btn-back" id="btn-back" onclick="prevStep()">←</button>
+    <button class="btn-next" id="btn-next" onclick="nextStep()" disabled></button>
+  </div>
+</div>
+
+<!-- PAGE 3: THANK YOU -->
+<div id="page-thankyou" class="thankyou">
+  <div class="ty-check">✅</div>
+  <h2 class="ty-title" id="ty-title"></h2>
+  <p class="ty-msg" id="ty-msg"></p>
+  <p class="ty-note" id="ty-note"></p>
+</div>
+
+<div class="footer">
+  © 2026 ChinoLatino Workforce & Hospitality<br>
+  <span id="footer-text"></span>
+</div>
+
+</div>
+
+<script>
+// ==================== TRANSLATIONS ====================
+const T = {
+  es: {
+    heroH: '¿Listo para un trabajo bueno y estable?',
+    heroSub: '11 preguntas. Sin resume. Te llamamos en 24 horas.',
+    cta: 'Empezar gratis',
+    ctaNote: '5 min · Gratis · Sin resume',
+    next: 'Continuar',
+    back: '←',
+    stepOf: 'Paso {n} de 11',
+    trust: [
+      {icon:'🏠', title:'Vivienda incluida', desc:'El empleador te da alojamiento'},
+      {icon:'🗺️', title:'Los 50 estados', desc:'Trabajos en todo Estados Unidos'},
+      {icon:'⚡', title:'Respuesta en 24h', desc:'Te respondemos rápido'},
+      {icon:'✅', title:'Empleador confiable', desc:'Real. Verificado. Seguro.'},
+      {icon:'🍽️', title:'Solo restaurantes y construcción', desc:'Solo estas dos industrias. Nada más.'},
+      {icon:'💵', title:'Cuota de $100–$200', desc:'Se descuenta de tu primer pago. Una sola vez.'}
+    ],
+    steps: [
+      {q:'¿Cuánto quieres ganar al mes?', hint:'', ph:'$2,000/mes'},
+      {q:'¿Dónde vives?', hint:'Selecciona tu estado y ciudad', ph:''},
+      {q:'¿Cuál fue tu último trabajo?', hint:''},
+      {q:'¿Cuánto tiempo trabajaste ahí?', hint:''},
+      {q:'¿Por qué dejaste ese trabajo?', hint:''},
+      {q:'¿Puedes mudarte a otro lugar?', hint:''},
+      {q:'¿Cuándo puedes empezar?', hint:''},
+      {q:'¿En qué eres realmente bueno?', hint:'Puede ser tu personalidad, una habilidad, o cualquier cosa. No hay respuesta incorrecta.', ph:''},
+      {q:'¿Cómo te llamas?', hint:'Toda la información es requerida'},
+      {q:'¿Cuál es tu película favorita?', hint:'En español, inglés o chino.', ph:''},
+      {q:'¿Cuál es el mejor horario para llamarte?', hint:''}
+    ],
+    s3opts: [
+      {main:'Restaurante / Cocina', sub:'Cocinero, línea, lavaplatos, mesero'},
+      {main:'Construcción / Oficios', sub:'Obrero, carpintero, operador'},
+      {main:'Recién llegué a EE.UU.', sub:'Poco o nada de trabajo aquí aún'}
+    ],
+    s4opts: ['Más de 1 año','6–12 meses','Menos de 6 meses','Nunca tuve un trabajo formal'],
+    s5opts: ['El pago era muy bajo','No había oportunidad de crecer','Recién llegué a EE.UU.','Mal ambiente de trabajo'],
+    s6opts: ['Sí, puedo mudarme','Tal vez, depende dónde','No, necesito quedarme aquí'],
+    s7opts: ['Esta semana o la próxima','En 2–4 semanas','En 1–2 meses','No estoy seguro aún'],
+    s11opts: ['Mañana 6am–12pm','Tarde 12pm–5pm','Noche 5pm–8pm','Cualquier hora'],
+    nameLabel:'Nombre completo',
+    genderLabel:'Género',
+    genderM:'Masculino',
+    genderF:'Femenino',
+    ageLabel:'Edad',
+    phoneLabel:'Teléfono',
+    emailLabel:'Correo electrónico',
+    agePh:'Ej: 28',
+    phonePh:'Ej: (555) 123-4567',
+    emailPh:'Ej: tu@email.com',
+    namePh:'Ej: Juan Pérez',
+    errRequired:'Este campo es requerido',
+    errMin:'Mínimo {n} caracteres',
+    errPhone:'Ingresa un teléfono válido',
+    errEmail:'Ingresa un email válido',
+    errAge:'Ingresa una edad válida',
+    tyTitle:'¡Gracias!',
+    tyMsg:'Recibimos tu info. Te contactamos pronto.',
+    tyNote:'Revisa tu teléfono y email. Te llamamos en menos de 24 horas.',
+    footer:'Empleos para Latinos y Chinos en Restaurantes y Construcción'
+  },
+  en: {
+    heroH: 'Ready for a good and stable job?',
+    heroSub: '11 questions. No resume. We call you in 24 hours.',
+    cta: 'Start free',
+    ctaNote: '5 min · Free · No resume',
+    next: 'Continue',
+    back: '←',
+    stepOf: 'Step {n} of 11',
+    trust: [
+      {icon:'🏠', title:'Housing included', desc:'Employer-provided housing'},
+      {icon:'🗺️', title:'All 50 states', desc:'Jobs all across the U.S.'},
+      {icon:'⚡', title:'Under 24h reply', desc:'We get back to you fast'},
+      {icon:'✅', title:'Trusted employer', desc:'Real. Verified. Safe.'},
+      {icon:'🍽️', title:'Restaurant & construction only', desc:'Only these two industries. Nothing else.'},
+      {icon:'💵', title:'$100–$200 placement fee', desc:'Taken from your first paycheck. One time only.'}
+    ],
+    steps: [
+      {q:'How much do you want to earn per month?', hint:'', ph:'$2,000/month'},
+      {q:'Where do you live?', hint:'Select your state and city', ph:''},
+      {q:'What was your last job?', hint:''},
+      {q:'How long did you work there?', hint:''},
+      {q:'Why did you leave that job?', hint:''},
+      {q:'Can you relocate?', hint:''},
+      {q:'When can you start?', hint:''},
+      {q:'What are you really good at?', hint:'Can be your personality, a skill, or anything. No wrong answer.', ph:''},
+      {q:'What is your name?', hint:'All fields are required'},
+      {q:'What is your favorite movie?', hint:'In English, Spanish, or Chinese.', ph:''},
+      {q:'What is the best time to call you?', hint:''}
+    ],
+    s3opts: [
+      {main:'Restaurant / Kitchen', sub:'Cook, line, dishwasher, server'},
+      {main:'Construction / Trades', sub:'Laborer, carpenter, operator'},
+      {main:'Just arrived in the U.S.', sub:'Little or no work here yet'}
+    ],
+    s4opts: ['More than 1 year','6–12 months','Less than 6 months','Never had a formal job'],
+    s5opts: ['Pay was too low','No room to grow','Just arrived in U.S.','Bad work environment'],
+    s6opts: ['Yes, I can move','Maybe, depends where','No, I need to stay here'],
+    s7opts: ['This week or next','In 2–4 weeks','In 1–2 months','Not sure yet'],
+    s11opts: ['Morning 6am–12pm','Afternoon 12pm–5pm','Evening 5pm–8pm','Any time'],
+    nameLabel:'Full name',
+    genderLabel:'Gender',
+    genderM:'Male',
+    genderF:'Female',
+    ageLabel:'Age',
+    phoneLabel:'Phone',
+    emailLabel:'Email',
+    agePh:'e.g. 28',
+    phonePh:'e.g. (555) 123-4567',
+    emailPh:'e.g. you@email.com',
+    namePh:'e.g. John Doe',
+    errRequired:'This field is required',
+    errMin:'Minimum {n} characters',
+    errPhone:'Enter a valid phone number',
+    errEmail:'Enter a valid email',
+    errAge:'Enter a valid age',
+    tyTitle:'Thank you!',
+    tyMsg:'We got your info. We will reach out soon.',
+    tyNote:'Check your phone and email. We will call you in less than 24 hours.',
+    footer:'Jobs for Latinos and Chinese in Restaurants and Construction'
+  },
+  zh: {
+    heroH: '想找一份好的稳定工作吗？',
+    heroSub: '11个问题。不需要简历。24小时内给你打电话。',
+    cta: '免费开始',
+    ctaNote: '5分钟 · 免费 · 不需要简历',
+    next: '继续',
+    back: '←',
+    stepOf: '第{n}步，共11步',
+    trust: [
+      {icon:'🏠', title:'包住宿', desc:'雇主提供住房'},
+      {icon:'🗺️', title:'全美50州', desc:'全美各地都有工作'},
+      {icon:'⚡', title:'24小时内回复', desc:'我们会很快回复你'},
+      {icon:'✅', title:'可信赖的雇主', desc:'真实。已验证。安全。'},
+      {icon:'🍽️', title:'仅限餐饮和建筑', desc:'只有这两个行业。没有其他的。'},
+      {icon:'💵', title:'$100–$200安置费', desc:'从你的第一笔工资中扣除。仅一次。'}
+    ],
+    steps: [
+      {q:'你每月最少想赚多少钱？', hint:'', ph:'$2,000/月'},
+      {q:'你现在住在哪里？', hint:'选择你的州和城市', ph:''},
+      {q:'你上一份工作是什么？', hint:''},
+      {q:'你在那里工作了多长时间？', hint:''},
+      {q:'你为什么离开那份工作？', hint:''},
+      {q:'你可以搬到其他地方吗？', hint:''},
+      {q:'你什么时候可以开始工作？', hint:''},
+      {q:'你真正擅长什么？', hint:'可以是你的性格、技能或任何东西。没有错误的答案。', ph:''},
+      {q:'你叫什么名字？', hint:'所有信息都是必填的'},
+      {q:'你最喜欢的电影是什么？', hint:'中文、英文或西班牙文都可以。', ph:''},
+      {q:'什么时间打电话给你最方便？', hint:''}
+    ],
+    s3opts: [
+      {main:'餐厅 / 厨房', sub:'厨师、流水线、洗碗工、服务员'},
+      {main:'建筑 / 工匠', sub:'工人、木匠、操作员'},
+      {main:'刚到美国', sub:'在这里几乎没有工作经验'}
+    ],
+    s4opts: ['超过1年','6–12个月','不到6个月','从未有过正式工作'],
+    s5opts: ['工资太低','没有发展空间','刚到美国','工作环境不好'],
+    s6opts: ['是的，我可以搬家','也许，取决于去哪里','不行，我需要留在这里'],
+    s7opts: ['这周或下周','2–4周内','1–2个月内','还不确定'],
+    s11opts: ['早上 6am–12pm','下午 12pm–5pm','晚上 5pm–8pm','任何时间'],
+    nameLabel:'全名',
+    genderLabel:'性别',
+    genderM:'男',
+    genderF:'女',
+    ageLabel:'年龄',
+    phoneLabel:'电话',
+    emailLabel:'电子邮箱',
+    agePh:'例如：28',
+    phonePh:'例如：(555) 123-4567',
+    emailPh:'例如：you@email.com',
+    namePh:'例如：张三',
+    errRequired:'此字段为必填项',
+    errMin:'最少{n}个字符',
+    errPhone:'请输入有效的电话号码',
+    errEmail:'请输入有效的电子邮箱',
+    errAge:'请输入有效的年龄',
+    tyTitle:'谢谢你！',
+    tyMsg:'我们收到你的信息了。我们很快联系你。',
+    tyNote:'请留意你的电话和邮箱。我们会在24小时内给你打电话。',
+    footer:'为拉丁裔和华人提供餐饮和建筑工作'
+  }
+};
+
+// ==================== STATE DATA ====================
+const statesData = {
+  'Alabama':['Birmingham','Montgomery','Huntsville','Mobile','Tuscaloosa'],
+  'Arizona':['Phoenix','Tucson','Mesa','Scottsdale','Chandler','Tempe'],
+  'California':['Los Angeles','San Francisco','San Diego','San Jose','Sacramento','Fresno','Oakland','Long Beach','Bakersfield','Anaheim'],
+  'Colorado':['Denver','Colorado Springs','Aurora','Fort Collins','Lakewood'],
+  'Connecticut':['Hartford','New Haven','Stamford','Bridgeport','Waterbury'],
+  'Florida':['Miami','Orlando','Tampa','Jacksonville','Fort Lauderdale','St. Petersburg','Hialeah'],
+  'Georgia':['Atlanta','Savannah','Augusta','Columbus','Macon'],
+  'Illinois':['Chicago','Aurora','Naperville','Rockford','Joliet','Springfield'],
+  'Louisiana':['New Orleans','Baton Rouge','Shreveport','Lafayette','Lake Charles'],
+  'Maryland':['Baltimore','Rockville','Silver Spring','Frederick','Gaithersburg'],
+  'Massachusetts':['Boston','Worcester','Springfield','Cambridge','Lowell'],
+  'Michigan':['Detroit','Grand Rapids','Ann Arbor','Lansing','Flint'],
+  'Nevada':['Las Vegas','Reno','Henderson','North Las Vegas','Sparks'],
+  'New Jersey':['Newark','Jersey City','Paterson','Elizabeth','Trenton'],
+  'New York':['New York City','Buffalo','Rochester','Albany','Syracuse','Yonkers'],
+  'North Carolina':['Charlotte','Raleigh','Durham','Greensboro','Winston-Salem'],
+  'Ohio':['Columbus','Cleveland','Cincinnati','Toledo','Akron'],
+  'Pennsylvania':['Philadelphia','Pittsburgh','Allentown','Reading','Erie'],
+  'Texas':['Houston','Dallas','San Antonio','Austin','Fort Worth','El Paso','Arlington'],
+  'Virginia':['Virginia Beach','Norfolk','Richmond','Arlington','Alexandria']
+};
+
+// ==================== APP STATE ====================
+let lang = 'es';
+let currentStep = 0;
+let ans = {pay:'',state:'',city:'',s3:'',s4:'',s5:'',s6:'',s7:'',s8:'',name:'',gender:'',age:'',phone:'',email:'',s10:'',s11:'',score:0};
+
+// ==================== LANGUAGE ====================
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.lang-btn').forEach(b => { if(b.textContent.trim() === (l==='es'?'ES':l==='en'?'EN':'中文')) b.classList.add('active'); });
+  // Reset to landing
+  showPage('landing');
+  currentStep = 0;
+  ans = {pay:'',state:'',city:'',s3:'',s4:'',s5:'',s6:'',s7:'',s8:'',name:'',gender:'',age:'',phone:'',email:'',s10:'',s11:'',score:0};
+  renderLanding();
+}
+
+function t() { return T[lang]; }
+
+// ==================== RENDER LANDING ====================
+function renderLanding() {
+  const tr = t();
+  document.getElementById('hero-headline').innerHTML = tr.heroH;
+  document.getElementById('hero-sub').textContent = tr.heroSub;
+  document.getElementById('cta-btn').textContent = tr.cta;
+  document.getElementById('cta-note').textContent = tr.ctaNote;
+  document.getElementById('footer-text').textContent = tr.footer;
+
+  const grid = document.getElementById('trust-grid');
+  grid.innerHTML = '';
+  tr.trust.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'trust-card' + (i >= 4 ? ' full' : '');
+    div.innerHTML = `<div class="trust-icon">${c.icon}</div><div class="trust-title">${c.title}</div><div class="trust-desc">${c.desc}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+// ==================== PAGE NAVIGATION ====================
+function showPage(page) {
+  document.getElementById('page-landing').style.display = page==='landing'?'block':'none';
+  document.getElementById('page-scorecard').style.display = page==='scorecard'?'block':'none';
+  document.getElementById('page-thankyou').style.display = page==='thankyou'?'block':'none';
+}
+
+function startScorecard() {
+  showPage('scorecard');
+  currentStep = 0;
+  renderStep();
+  window.scrollTo(0, 0);
+}
+
+// ==================== RENDER STEP ====================
+function renderStep() {
+  const tr = t();
+  const s = currentStep;
+  const container = document.getElementById('step-container');
+
+  // Progress
+  const pct = Math.round(((s) / 11) * 100);
+  document.getElementById('prog-step').textContent = tr.stepOf.replace('{n}', s + 1);
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+
+  // Back button
+  document.getElementById('btn-back').style.display = s === 0 ? 'none' : 'block';
+  // Next button text
+  document.getElementById('btn-next').textContent = s === 10 ? (lang==='es'?'Enviar':lang==='en'?'Submit':'提交') : tr.next;
+  document.getElementById('btn-next').disabled = true;
+
+  const stepInfo = tr.steps[s];
+  let html = `<div class="step-card"><div class="step-num">${tr.stepOf.replace('{n}', s+1)}</div><div class="step-q">${stepInfo.q}</div>`;
+  if (stepInfo.hint) html += `<div class="step-hint">${stepInfo.hint}</div>`;
+  else html += '<div style="height:12px"></div>';
+
+  switch(s) {
+    case 0: // Pay
+      html += `<input type="text" id="inp-pay" placeholder="${stepInfo.ph}" value="${ans.pay}" oninput="validateStep()">`;
+      html += `<div class="field-error" id="err-pay">${tr.errRequired}</div>`;
+      break;
+
+    case 1: // Location
+      html += `<div class="field-group"><label class="field-label">${lang==='es'?'Estado':lang==='en'?'State':'州'}</label><div class="select-wrap"><select id="sel-state" onchange="onStateChange()"><option value="">${lang==='es'?'Selecciona un estado':lang==='en'?'Select a state':'选择一个州'}</option>`;
+      Object.keys(statesData).sort().forEach(st => {
+        html += `<option value="${st}" ${ans.state===st?'selected':''}>${st}</option>`;
+      });
+      html += `</select></div></div>`;
+      html += `<div class="field-group"><label class="field-label">${lang==='es'?'Ciudad':lang==='en'?'City':'城市'}</label><div class="select-wrap"><select id="sel-city" onchange="onCityChange()" ${!ans.state?'disabled':''}><option value="">${lang==='es'?'Selecciona una ciudad':lang==='en'?'Select a city':'选择一个城市'}</option>`;
+      if (ans.state && statesData[ans.state]) {
+        statesData[ans.state].forEach(c => {
+          html += `<option value="${c}" ${ans.city===c?'selected':''}>${c}</option>`;
+        });
+      }
+      html += `</select></div></div>`;
+      break;
+
+    case 2: // Last job
+      html += renderOptions(tr.s3opts, ans.s3, true);
+      break;
+
+    case 3: // How long
+      html += renderSimpleOptions(tr.s4opts, ans.s4);
+      break;
+
+    case 4: // Why left
+      html += renderSimpleOptions(tr.s5opts, ans.s5);
+      break;
+
+    case 5: // Relocate
+      html += renderSimpleOptions(tr.s6opts, ans.s6);
+      break;
+
+    case 6: // When start
+      html += renderSimpleOptions(tr.s7opts, ans.s7);
+      break;
+
+    case 7: // Good at (free text, min 10)
+      html += `<textarea id="inp-s8" oninput="validateStep()" placeholder="">${ans.s8}</textarea>`;
+      html += `<div class="field-error" id="err-s8">${tr.errMin.replace('{n}','10')}</div>`;
+      break;
+
+    case 8: // Contact info
+      html += `
+        <div class="field-group"><label class="field-label">${tr.nameLabel}</label><input type="text" id="inp-name" placeholder="${tr.namePh}" value="${ans.name}" oninput="validateStep()"></div>
+        <div class="field-group"><label class="field-label">${tr.genderLabel}</label>
+          <div class="checkbox-row ${ans.gender==='M'?'selected':''}" onclick="selectGender('M')"><div class="checkbox-box">${ans.gender==='M'?'✓':''}</div><span>${tr.genderM}</span></div>
+          <div class="checkbox-row ${ans.gender==='F'?'selected':''}" onclick="selectGender('F')"><div class="checkbox-box">${ans.gender==='F'?'✓':''}</div><span>${tr.genderF}</span></div>
+        </div>
+        <div class="field-group"><label class="field-label">${tr.ageLabel}</label><input type="number" id="inp-age" placeholder="${tr.agePh}" value="${ans.age}" oninput="validateStep()" min="16" max="80"></div>
+        <div class="field-group"><label class="field-label">${tr.phoneLabel}</label><input type="tel" id="inp-phone" placeholder="${tr.phonePh}" value="${ans.phone}" oninput="validateStep()"></div>
+        <div class="field-group"><label class="field-label">${tr.emailLabel}</label><input type="email" id="inp-email" placeholder="${tr.emailPh}" value="${ans.email}" oninput="validateStep()"></div>
+        <div class="field-error" id="err-contact">${tr.errRequired}</div>
+      `;
+      break;
+
+    case 9: // Favorite movie (min 2)
+      html += `<input type="text" id="inp-s10" placeholder="" value="${ans.s10}" oninput="validateStep()">`;
+      html += `<div class="field-error" id="err-s10">${tr.errMin.replace('{n}','2')}</div>`;
+      break;
+
+    case 10: // Best time to call
+      html += renderSimpleOptions(tr.s11opts, ans.s11);
+      break;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+
+  // Re-validate after render
+  setTimeout(validateStep, 50);
+  window.scrollTo(0, 0);
+}
+
+function renderOptions(opts, selected, hasSub) {
+  let html = '<div class="option-list">';
+  opts.forEach((o, i) => {
+    const val = i.toString();
+    const sel = selected === val ? ' selected' : '';
+    html += `<div class="option-item${sel}" onclick="selectOption(${i})"><div class="option-dot"></div><div class="option-text"><div class="option-main">${hasSub ? o.main : o}</div>${hasSub && o.sub ? '<div class="option-sub">'+o.sub+'</div>' : ''}</div></div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderSimpleOptions(opts, selected) {
+  let html = '<div class="option-list">';
+  opts.forEach((o, i) => {
+    const val = i.toString();
+    const sel = selected === val ? ' selected' : '';
+    html += `<div class="option-item${sel}" onclick="selectOption(${i})"><div class="option-dot"></div><div class="option-text"><div class="option-main">${o}</div></div></div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+// ==================== INTERACTIONS ====================
+function selectOption(idx) {
+  const s = currentStep;
+  const val = idx.toString();
+  switch(s) {
+    case 2: ans.s3 = val; break;
+    case 3: ans.s4 = val; break;
+    case 4: ans.s5 = val; break;
+    case 5: ans.s6 = val; break;
+    case 6: ans.s7 = val; break;
+    case 10: ans.s11 = val; break;
+  }
+  // Update UI
+  document.querySelectorAll('.option-item').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  validateStep();
+}
+
+function selectGender(g) {
+  ans.gender = g;
+  renderStep();
+}
+
+function onStateChange() {
+  const sel = document.getElementById('sel-state');
+  ans.state = sel.value;
+  ans.city = '';
+  const citySel = document.getElementById('sel-city');
+  citySel.disabled = !ans.state;
+  citySel.innerHTML = `<option value="">${lang==='es'?'Selecciona una ciudad':lang==='en'?'Select a city':'选择一个城市'}</option>`;
+  if (ans.state && statesData[ans.state]) {
+    statesData[ans.state].forEach(c => {
+      citySel.innerHTML += `<option value="${c}">${c}</option>`;
+    });
+  }
+  validateStep();
+}
+
+function onCityChange() {
+  const sel = document.getElementById('sel-city');
+  ans.city = sel.value;
+  validateStep();
+}
+
+// ==================== VALIDATION ====================
+function validateStep() {
+  const s = currentStep;
+  let valid = false;
+
+  switch(s) {
+    case 0:
+      const pay = document.getElementById('inp-pay');
+      if (pay) { ans.pay = pay.value; valid = pay.value.trim().length > 0; }
+      break;
+    case 1:
+      valid = ans.state !== '' && ans.city !== '';
+      break;
+    case 2:
+      valid = ans.s3 !== '';
+      break;
+    case 3:
+      valid = ans.s4 !== '';
+      break;
+    case 4:
+      valid = ans.s5 !== '';
+      break;
+    case 5:
+      valid = ans.s6 !== '';
+      break;
+    case 6:
+      valid = ans.s7 !== '';
+      break;
+    case 7:
+      const s8 = document.getElementById('inp-s8');
+      if (s8) { ans.s8 = s8.value; valid = s8.value.trim().length >= 10; }
+      break;
+    case 8:
+      const name = document.getElementById('inp-name');
+      const age = document.getElementById('inp-age');
+      const phone = document.getElementById('inp-phone');
+      const email = document.getElementById('inp-email');
+      if (name) ans.name = name.value;
+      if (age) ans.age = age.value;
+      if (phone) ans.phone = phone.value;
+      if (email) ans.email = email.value;
+      const ageNum = parseInt(ans.age);
+      valid = ans.name.trim().length > 0 && ans.gender !== '' && !isNaN(ageNum) && ageNum >= 16 && ageNum <= 80 && ans.phone.trim().length >= 7 && /\S+@\S+\.\S+/.test(ans.email);
+      break;
+    case 9:
+      const s10 = document.getElementById('inp-s10');
+      if (s10) { ans.s10 = s10.value; valid = s10.value.trim().length >= 2; }
+      break;
+    case 10:
+      valid = ans.s11 !== '';
+      break;
+  }
+
+  document.getElementById('btn-next').disabled = !valid;
+}
+
+// ==================== SCORING ====================
+function calcScore() {
+  let score = 0;
+  // Step 3
+  const s3 = parseInt(ans.s3);
+  if (s3 === 0 || s3 === 1) score += 2;
+  else if (s3 === 2) score += 1;
+  // Step 4
+  const s4 = parseInt(ans.s4);
+  if (s4 === 0) score += 3;
+  else if (s4 === 1) score += 2;
+  else if (s4 === 2) score += 1;
+  // Step 6
+  const s6 = parseInt(ans.s6);
+  if (s6 === 0) score += 2;
+  else if (s6 === 1) score += 1;
+  // Step 7
+  const s7 = parseInt(ans.s7);
+  if (s7 === 0) score += 3;
+  else if (s7 === 1) score += 2;
+  else if (s7 === 2) score += 1;
+  return score;
+}
+
+// ==================== NAVIGATION ====================
+function nextStep() {
+  if (document.getElementById('btn-next').disabled) return;
+  if (currentStep < 10) {
+    currentStep++;
+    renderStep();
+  } else {
+    // Submit
+    ans.score = calcScore();
+    console.log('ChinoLatino Lead Data:', JSON.stringify(ans, null, 2));
+    console.log(ans);
+    showThankYou();
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    renderStep();
+  } else {
+    showPage('landing');
+    renderLanding();
+  }
+}
+
+function showThankYou() {
+  const tr = t();
+  showPage('thankyou');
+  document.getElementById('ty-title').textContent = tr.tyTitle;
+  document.getElementById('ty-msg').textContent = tr.tyMsg;
+  document.getElementById('ty-note').textContent = tr.tyNote;
+  document.getElementById('footer-text').textContent = tr.footer;
+  window.scrollTo(0, 0);
+}
+
+// ==================== INIT ====================
+renderLanding();
+</script>
+</body>
+</html>
